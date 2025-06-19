@@ -1,0 +1,138 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+
+  /* Gradasi dinamis multiwarna */
+  background: linear-gradient(270deg,
+    rgb(230, 220, 255),  /* ungu muda */
+    rgb(255, 192, 203),  /* pink */
+    rgb(255, 255, 255),  /* putih */
+    rgb(144, 238, 144),  /* hijau muda */
+    rgb(255, 99, 132),   /* merah muda terang */
+    rgb(90, 0, 150),     /* ungu tua */
+    rgb(0, 0, 0),        /* hitam */
+    rgb(230, 220, 255)   /* kembali ke ungu muda */
+  );
+  background-size: 2000% 2000%;
+  animation: moveGradient 30s ease infinite;
+}
+
+@keyframes moveGradient {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.container {
+  background-color: white;
+  border: 2px solid rgb(128, 0, 128);
+  border-radius: 12px;
+  padding: 30px;
+  margin-top: 40px;
+  box-shadow: 0 4px 10px rgba(128, 0, 128, 0.2);
+  width: 90%;
+  max-width: 750px;
+}
+
+h2 {
+  text-align: center;
+  color: rgb(111, 0, 150);
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+  color: rgb(85, 0, 128);
+}
+
+input, select {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 5px;
+  border: 1px solid rgb(170, 130, 255);
+  border-radius: 6px;
+  box-sizing: border-box;
+  transition: 0.3s ease;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: rgb(145, 0, 200);
+  box-shadow: 0 0 5px rgba(145, 0, 200, 0.5);
+}
+
+.product-block {
+  padding: 15px;
+  margin-top: 15px;
+  background-color: rgba(230, 220, 255, 0.4);
+  border-left: 4px solid rgb(128, 0, 128);
+  border-radius: 8px;
+}
+
+.button-group {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.button-group button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: rgb(145, 0, 200);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.button-group button:hover {
+  background-color: rgb(100, 0, 160);
+}
+
+.result {
+  margin-top: 30px;
+  background-color: rgb(245, 235, 255);
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid rgb(170, 130, 255);
+  color: rgb(60, 0, 100);
+}
+
+.result table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.result th, .result td {
+  border: 1px solid rgb(200, 160, 255);
+  padding: 10px;
+  text-align: center;
+}
+
+.result th {
+  background-color: rgb(210, 180, 255);
+  color: rgb(50, 0, 90);
+}
+.credit {
+  text-align: center;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 1rem;
+  color: rgb(85, 0, 128);
+  line-height: 1.4;
+  animation: fadeIn 1.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
