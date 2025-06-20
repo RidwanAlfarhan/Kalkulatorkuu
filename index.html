@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulatorkuu</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>OptiProfit</h2>
+    <h3>Kalkulator Break-even dan Optimasi Laba</h3>
+    <div class="credit">
+      <div>by</div>
+      <div>Tadris Matematika UIN Jusila</div>
+      </div>
+
+    <label>Jumlah Jenis Produk:</label>
+    <select id="unitCount" onchange="generateUnitInputs()">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+
+    <div id="unitInputs"></div>
+
+    <label>Biaya Tetap (Rp):</label>
+    <input type="number" id="fixedCost" placeholder="Contoh: 2000000">
+
+    <div class="button-group">
+      <button onclick="calculate()">Hitung</button>
+      <button onclick="resetForm()">Reset</button>
+    </div>
+
+    <div class="result" id="output"></div>
+  </div>
+
+  <script>
+    function generateUnitInputs() {
+      const count = parseInt(document.getElementById("unitCount").value);
+      const container = document.getElementById("unitInputs");
+      container.innerHTML = '';
+
+      for (let i = 0; i < count; i++) {
+        container.innerHTML += `
+          <div class="product-block">
+            <label>Nama Produk ${i + 1}:</label>
+            <input type="text" id="productName${i}" placeholder="Contoh: Produk A">
+            <label>Harga Jual per Unit (Rp):</label>
+            <input type="number" id="price${i}" placeholder="Contoh: 10000">
+            <label>Biaya Variabel per Unit (Rp):</label>
+            <input type="number" id="variableCost${i}" placeholder="Contoh: 5000">
+            <label>Jumlah Unit Terjual:</label>
+            <input type="number" id="unitsSold${i}" placeholder="Contoh: 500">
+            <label>Kapasitas Maksimum Unit:</label>
+            <input type="number" id="maxUnits${i}" placeholder="Contoh: 1000">
+          </div>
+        `;
+      }
+    }
+
+    function calculate() {
+      const count = parseInt(document.getElementById("unitCount").value);
+      const fixedCost = parseFloat(document.getElementById("fixedCost").value);
+
+      if (isNaN(fixedCost)) {
+        alert("Mohon isi biaya tetap.");
+        return;
+      }
+
+      let totalContribution = 0;
+      let rows = "";
+      let profitFunctions = "";
+
+      for (let i = 0; i < count; i++) {
+        const name = document.getElementById("productName" + i).value || `Produk ${i + 1}`;
+        const price = parseFloat(document.getElementById("price" + i).value);
+        const variableCost = parseFloat(document.getElementById("variableCost" + i).value);
+        const unitsSold = parseFloat(document.getElementById("unitsSold" + i).value);
+        const maxUnits = parseFloat(document.getElementById("maxUnits" + i).value);
+        
+
+        if (isNaN(price) || isNaN(variableCost)) {
+          alert("Harga dan biaya variabel harus diisi untuk semua produk.");
+          return;
+        }
+
+        const cm = price - variableCost;
+        totalContribution += cm;
+
+        const profit = (!isNaN(unitsSold)) ? ((cm * unitsSold) - fixedCost) : "-";
+        const profitMax = (!isNaN(maxUnits)) ? ((cm * maxUnits) - fixedCost) : "-";
+        const loss = (!isNaN(unitsSold)) ? Math.max(0, fixedCost - (cm * unitsSold)) : "-";
+
+        rows += `
+          <tr>
+            <td>${name}</td>
+            <td>Rp ${price.toLocaleString()}</td>
+            <td>Rp ${variableCost.toLocaleString()}</td>
+            <td>${isNaN(unitsSold) ? "-" : unitsSold}</td>
+            <td>${isNaN(maxUnits) ? "-" : maxUnits}</td>
+            <td>${cm.toLocaleString()}</td>
+            <td>${profit === "-" ? "-" : "Rp " + profit.toLocaleString()}</td>
+            <td>${profitMax === "-" ? "-" : "Rp " + profitMax.toLocaleString()}</td>
+            <td>${loss === "-" ? "-" : "Rp " + loss.toLocaleString()}</td>
+          </tr> 
+        `;
+        
+        profitFunctions += `<li><strong>Fungsi Laba-Rugi ${name}:</strong> π(x) = (${price} - ${variableCost})x - ${fixedCost}</li>`;
+      }
+
+      const breakEven = fixedCost / totalContribution;
+
+      document.getElementById("output").innerHTML = `
+        <p><strong>Total Margin:</strong> Rp ${totalContribution.toLocaleString()}</p>
+        <p><strong>Titik Impas (Break-even Point):</strong> ${Math.ceil(breakEven)} unit (gabungan)</p>
+
+        <div style="margin-top: 20px;">
+          <strong>Fungsi Laba-Rugi:</strong>
+          <ul>${profitFunctions}</ul>
+        </div>
+
+        <table border="1" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+          <thead>
+            <tr>
+              <th>Produk</th>
+              <th>Harga Jual</th>
+              <th>Biaya Variabel</th>
+              <th>Unit Terjual</th>
+              <th>Kapasitas Maks.</th>
+              <th>Margin</th>
+              <th>Laba</th>
+              <th>Laba Maks.</th>
+              <th>Rugi</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows}
+          </tbody>
+        </table>
+      `;
+    }
+   
+    function resetForm() {
+      document.getElementById("unitCount").value = "1";
+      generateUnitInputs();
+      document.getElementById("fixedCost").value = "";
+      document.getElementById("output").innerHTML = "";
+    }
+
+    window.onload = generateUnitInputs;
+    </script>
+</body>
+</html>
